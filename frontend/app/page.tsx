@@ -2,6 +2,9 @@
 
 import React from 'react'
 import { useState, useEffect } from 'react'
+import ChatMessages from '@/components/ChatMessages'
+import ChatInput from '@/components/ChatInput'
+import Sidebar from '@/components/Sidebar'
 
 type Message = {
   role: "user" | "assistant",
@@ -81,34 +84,13 @@ const Home = () => {
 
   return (
     <>
-      <h1>Chat bot</h1>
-      <p>Sessions:</p>
-      <select
-        value={sessionId}
-        onChange={(e) => setSessionId(Number(e.target.value))}
-      >
-        <option value="">Select a session</option>
-        {sessions.map((session) => (
-          <option key={session.id} value={session.id}>
-            Session {session.id}
-          </option>
-        ))}
-      </select>
-
-      <input
-        type="text"
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-      />
-      <button onClick={sendMessage}>Send</button>
-      <div>
-        {messages.map((message, index) => {
-          return (
-            <p key={index}>
-              <strong>{message.role}:</strong> {message.content}
-            </p>
-          )
-        })}
+      <div className='flex'>
+        <Sidebar sessions={sessions} sessionId={sessionId} setSessionId={setSessionId} />
+        <div className='p-4 flex-1 overflow-y-scroll'>
+          <h1 className='text-2xl font-bold'>Chat bot</h1>
+          <ChatInput input={input} setInput={setInput} sendMessage={sendMessage} />
+          <ChatMessages messages={messages} />
+        </div>
       </div>
     </>
   )
