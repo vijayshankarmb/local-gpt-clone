@@ -2,6 +2,7 @@ import React, { SetStateAction } from 'react'
 
 type Session = {
     id: number
+    title: string
     created_at: string
 }
 
@@ -24,7 +25,7 @@ const Sidebar = ({
             onClick={()=>setSessionId(session.id)}
             className='p-2 cursor-pointer hover:bg-gray-200'
             >
-                session {session.id}
+                {session.title || "New Chat"}
             </div>
         ))}
     </div>

@@ -14,6 +14,7 @@ const ChatInput = ({input, setInput, sendMessage}: props) => {
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
+                placeholder='Ask anything'
             />
             <button onClick={sendMessage}>Send</button>
         </>

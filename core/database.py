@@ -16,6 +16,7 @@ def init_db():
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS sessions (
         id INTEGER PRIMARY KEY,
+        title TEXT,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP
         )
     """)
@@ -60,11 +61,20 @@ def get_sessions():
     conn = sqlite3.connect("database.db", check_same_thread=False)
     cursor = conn.cursor()
 
-    cursor.execute("SELECT id, created_at FROM sessions ORDER BY id DESC")
+    cursor.execute("SELECT id, title, created_at FROM sessions ORDER BY id DESC")
 
     data = cursor.fetchall()
     conn.close()
     return [
-        {"id": id, "created_at": created_at} for id, created_at in data
+        {"id": id, "title": title, "created_at": created_at} for id, title, created_at in data
     ]
+
+def update_session_title(session_id: int, title: str):
+    conn = sqlite3.connect("database.db", check_same_thread=False)
+    cursor = conn.cursor()
+
+    cursor.execute("UPDATE sessions SET title = ? WHERE id = ?", (title, session_id))
+
+    conn.commit()
+    conn.close()
 
